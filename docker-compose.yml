@@ -1,0 +1,33 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    restart: on-failure
+    volumes:
+      - ./package.json:/var/app/package.json
+      - ./dist:/var/app/dist
+      - ./config:/var/app/config
+    environment: 
+      SERVER_PORT: 3000
+      DB_CONNECTION_URI: 'mongodb://pau:123456@mongo:27017/app'
+
+    ports:
+      - '3000:3000'
+    links:
+      - mongo
+
+  mongo:
+    image: mongo:4.4
+    restart: on-failure
+    environment: 
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: app
+      MONGO_INITDB_USERNAME: pau
+      MONGO_INITDB_PASSWORD: 123456
+    volumes:
+      - ./scripts/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+    ports:
+      - '27017:27017'
