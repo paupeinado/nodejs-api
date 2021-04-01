@@ -1,0 +1,11 @@
+services:
+  program.repository:
+    class: '../dist/infrastructure/mongo/repository/program.repository.mongo'
+  
+  program.usecase.get:
+    class: '../dist/application/usecase/program/get'
+    arguments: ['@program.repository']
+
+  program.usecase.getCollection:
+    class: '../dist/application/usecase/program/get-collection'
+    arguments: ['@program.repository']

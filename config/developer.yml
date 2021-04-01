@@ -1,0 +1,11 @@
+services:
+  developer.repository:
+    class: '../dist/infrastructure/mongo/repository/developer.repository.mongo'
+  
+  developer.usecase.get:
+    class: '../dist/application/usecase/developer/get'
+    arguments: ['@developer.repository']
+
+  developer.usecase.getCollection:
+    class: '../dist/application/usecase/developer/get-collection'
+    arguments: ['@developer.repository']
